@@ -1,0 +1,124 @@
+/* reset dasar */
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+/* body */
+body{
+    padding:40px;
+    font-family:'Segoe UI', Arial, sans-serif;
+    background:linear-gradient(135deg,#0f1923,#091018);
+    color:#e6e6e6;
+}
+
+/* card utama */
+.card{
+    max-width:700px;
+    margin:auto;
+    padding:35px;
+
+    background:#111823;
+
+    border:2px solid #ff4655;
+    border-radius:10px;
+
+    box-shadow:
+        0 0 25px rgba(255,70,85,0.35),
+        inset 0 0 10px rgba(255,70,85,0.1);
+
+    text-align:center;
+
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    box-shadow:
+        0 0 35px rgba(255,70,85,0.5),
+        inset 0 0 15px rgba(255,70,85,0.15);
+}
+
+/* logo */
+.logo{
+    width:120px;
+    margin-bottom:15px;
+}
+
+/* title */
+h1{
+    color:#ff4655;
+    letter-spacing:3px;
+    font-size:28px;
+    margin-bottom:10px;
+}
+
+/* text paragraf */
+p{
+    color:#c7c7c7;
+    line-height:1.6;
+    margin-bottom:15px;
+    font-size:15px;
+}
+
+/* agent image */
+.agent img{
+    width:100%;
+    border-radius:8px;
+
+    border:2px solid #ff4655;
+
+    margin:15px 0;
+
+    transition:0.4s;
+}
+
+.agent img:hover{
+    transform:scale(1.02);
+}
+
+/* tombol style valorant */
+.btn{
+    margin-top:20px;
+    padding:13px 32px;
+
+    background:#ff4655;
+    color:white;
+
+    border:none;
+    border-radius:6px;
+
+    font-weight:600;
+    letter-spacing:2px;
+    font-size:14px;
+
+    cursor:pointer;
+
+    box-shadow:0 0 10px rgba(255,70,85,0.5);
+
+    transition:all 0.25s ease;
+}
+
+.btn:hover{
+    background:#ff2a3d;
+    transform:scale(1.06);
+    box-shadow:0 0 20px rgba(255,70,85,0.8);
+}
+
+/* garis */
+hr{
+    border:none;
+    height:2px;
+    background:linear-gradient(to right,transparent,#ff4655,transparent);
+    margin:20px 0;
+}
+
+/* footer */
+small{
+    display:block;
+    margin-top:18px;
+    color:#9aa0a6;
+    font-size:13px;
+    letter-spacing:1px;
+}
