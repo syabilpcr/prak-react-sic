@@ -1,105 +1,121 @@
-import { useState } from "react";
-// Import MdSpaceDashboard sesuai gambar
-import { MdSpaceDashboard } from "react-icons/md"; 
-import { FaShoppingCart, FaUsers, FaPlus, FaCog, FaSignOutAlt } from "react-icons/fa";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import {
+  LayoutDashboard,
+  ShoppingCart,
+  Users,
+  AlertTriangle,
+  ShieldOff,
+  Ban,
+  Plus,
+  Zap,
+} from "lucide-react";
 
-export default function Sidebar() {
+const Sidebar = () => {
+  const navigate = useNavigate();
   const location = useLocation();
 
-  // Sesuaikan dengan variabel di gambar: menuClass
-  const menuClass = ({ isActive }) =>
-    `flex items-center rounded-2xl px-5 py-4 transition-all duration-300 ${
-      isActive
-        ? "bg-green-500 text-white shadow-lg shadow-green-200 font-bold"
-        : "text-gray-500 hover:bg-green-50 hover:text-green-600 font-medium"
-    }`;
+  const mainMenuItems = [{ label: "Dashboard", icon: LayoutDashboard, path: "/" }];
+  const managementItems = [
+    { label: "Orders", icon: ShoppingCart, path: "/orders" },
+    { label: "Customers", icon: Users, path: "/customers" },
+  ];
+  const errorItems = [
+    { label: "Error 400", icon: AlertTriangle, path: "/error/400" },
+    { label: "Error 401", icon: ShieldOff, path: "/error/401" },
+    { label: "Error 403", icon: Ban, path: "/error/403" },
+  ];
+
+  const NavItem = ({ item }) => {
+    const isActive = location.pathname === item.path;
+    const Icon = item.icon;
+    return (
+      <button
+        onClick={() => navigate(item.path)}
+        className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 group relative ${
+          isActive
+            ? "bg-green-500 text-white shadow-lg shadow-green-200"
+            : "text-gray-500 hover:bg-gray-50 hover:text-gray-800"
+        }`}
+      >
+        {isActive && (
+          <span className="absolute right-3 w-1.5 h-1.5 rounded-full bg-white opacity-70" />
+        )}
+        <span className={`p-1.5 rounded-lg transition-all ${isActive ? "bg-white/20" : "bg-gray-100 group-hover:bg-gray-200"}`}>
+          <Icon size={14} />
+        </span>
+        {item.label}
+      </button>
+    );
+  };
+
+  const SectionLabel = ({ label }) => (
+    <p className="text-[10px] font-bold text-gray-300 tracking-widest uppercase px-3 mb-2 mt-1">
+      {label}
+    </p>
+  );
 
   return (
-    <div className="flex min-h-screen w-72 flex-col bg-white p-6 shadow-2xl border-r border-gray-100">
-
-      {/* Logo Section */}
-      <div className="mb-10 px-4">
-        <h1 className="font-poppins text-4xl font-bold tracking-tight text-gray-900">
-          Sedap<span className="text-green-500">.</span>
-        </h1>
-        <p className="mt-1 text-xs font-medium uppercase tracking-widest text-gray-400">
-          Modern Admin Panel
+    <div className="w-64 min-h-screen bg-white flex flex-col p-4 fixed left-0 top-0 bottom-0 z-20"
+      style={{ boxShadow: "1px 0 0 #f1f5f9" }}
+    >
+      {/* Logo */}
+      <div className="mb-8 px-2 pt-3">
+        <div className="flex items-center gap-2 mb-0.5">
+          <div className="w-7 h-7 bg-green-500 rounded-lg flex items-center justify-center shadow-md shadow-green-200">
+            <Zap size={14} className="text-white" fill="white" />
+          </div>
+          <h1 className="text-xl font-black text-gray-900 tracking-tight">
+            Sedap<span className="text-green-500">.</span>
+          </h1>
+        </div>
+        <p className="text-[10px] text-gray-400 font-semibold tracking-widest uppercase ml-9">
+          Admin Panel
         </p>
       </div>
 
-      {/* Navigation Menu */}
-      <nav className="flex-1 space-y-8">
-
-        {/* BAGIAN 1: MAIN MENU */}
-        <div>
-          <p className="px-5 mb-4 text-[10px] font-bold uppercase tracking-widest text-gray-400">Main Menu</p>
-          <ul className="space-y-2">
-            <li>
-              <NavLink id="menu-1" to="/" className={menuClass}>
-                <MdSpaceDashboard className="mr-4 text-xl" />
-                Dashboard
-              </NavLink>
-            </li>
-          </ul>
+      {/* Main Menu */}
+      <div className="mb-5">
+        <SectionLabel label="Main Menu" />
+        <div className="space-y-0.5">
+          {mainMenuItems.map((item) => <NavItem key={item.path} item={item} />)}
         </div>
+      </div>
 
-        {/* BAGIAN 2: MANAGEMENT */}
-        <div>
-          <p className="px-5 mb-4 text-[10px] font-bold uppercase tracking-widest text-gray-400">Management</p>
-          <ul className="space-y-2">
-            <li>
-              <NavLink to="/orders" className={menuClass}>
-                <FaShoppingCart className="mr-4 text-xl" />
-                Orders
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/customers" className={menuClass}>
-                <FaUsers className="mr-4 text-xl" />
-                Customers
-              </NavLink>
-            </li>
-          </ul>
+      {/* Management */}
+      <div className="mb-5">
+        <SectionLabel label="Management" />
+        <div className="space-y-0.5">
+          {managementItems.map((item) => <NavItem key={item.path} item={item} />)}
         </div>
+      </div>
 
-        {/* BAGIAN 3: OTHERS */}
-        {/* <div>
-          <p className="px-5 mb-4 text-[10px] font-bold uppercase tracking-widest text-gray-400">Others</p>
-          <ul className="space-y-2">
-            <li>
-              <NavLink to="/settings" className={menuClass}>
-                <FaCog className="mr-4 text-xl" />
-                Settings
-              </NavLink>
-            </li>
-            <li>
-              <button className="flex w-full items-center rounded-2xl px-5 py-4 text-red-400 hover:bg-red-50 transition-all duration-300 font-medium">
-                <FaSignOutAlt className="mr-4 text-xl" />
-                Logout
-              </button>
-            </li>
-          </ul>
-        </div> */}
-
-      </nav>
-
-      {/* Footer / Promo Card */}
-      <div className="mt-auto pt-10">
-        <div className="relative mb-8 overflow-hidden rounded-3xl bg-green-600 p-6 shadow-xl">
-          <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-green-500 opacity-50"></div>
-          <div className="relative z-10 text-white">
-            <p className="text-sm font-medium">Organize your menus easily!</p>
-            <button className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-white py-3 font-bold text-green-600 transition-transform hover:scale-[1.02] active:scale-95">
-              <FaPlus /> Add Menus
-            </button>
-          </div>
+      {/* Error Pages */}
+      <div className="mb-5">
+        <SectionLabel label="Error Pages" />
+        <div className="space-y-0.5">
+          {errorItems.map((item) => <NavItem key={item.path} item={item} />)}
         </div>
-        <div className="px-2">
-          <p className="text-sm font-bold text-gray-800">Sedap Restaurant</p>
-          <p className="text-xs text-gray-400 mt-1">© 2026 All Rights Reserved</p>
+      </div>
+
+      {/* Divider */}
+      <div className="border-t border-gray-100 my-2" />
+
+      {/* Bottom Card */}
+      <div className="mt-auto">
+        <div className="relative bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl p-4 text-white overflow-hidden">
+          {/* Decorative circle */}
+          <div className="absolute -top-4 -right-4 w-16 h-16 rounded-full bg-white/10" />
+          <div className="absolute -bottom-3 -left-3 w-12 h-12 rounded-full bg-white/10" />
+          <p className="text-xs font-bold mb-1 relative z-10">Organize menus easily!</p>
+          <p className="text-[10px] text-green-100 mb-3 relative z-10">Kelola semua menu dengan mudah.</p>
+          <button className="relative z-10 w-full flex items-center justify-center gap-1.5 bg-white text-green-600 font-bold text-xs py-2 rounded-xl hover:bg-green-50 transition-colors shadow-sm">
+            <Plus size={13} />
+            Add Menus
+          </button>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default Sidebar;

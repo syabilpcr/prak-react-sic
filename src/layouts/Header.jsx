@@ -1,85 +1,72 @@
 import { useState } from "react";
-import { FaSearch, FaChevronDown } from "react-icons/fa";
-import SearchModal from "../components/SearchModal";
-import NotificationDropdown from "../components/NotificationDropdown";
+import { Search, Bell, X, Command } from "lucide-react";
 
-const Header = () => {
-  const [searchOpen, setSearchOpen] = useState(false);
+const Header = ({ title, subtitle }) => {
+  const [searchValue, setSearchValue] = useState("");
 
   return (
-    <>
-      <header className="sticky top-0 z-30 w-full border-b border-gray-100 bg-white/70 px-6 py-3 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-[1600px] items-center justify-between">
-          
-          {/* Page Title & Breadcrumb-ish */}
-          <div className="flex flex-col">
-            <h1 className="text-xl font-bold tracking-tight text-gray-800">
-              Dashboard
-            </h1>
-            <p className="hidden text-[11px] font-medium text-gray-400 sm:block">
-              Manage your restaurant activity here
-            </p>
-          </div>
+    <header className="bg-white px-8 py-3.5 flex items-center justify-between sticky top-0 z-10"
+      style={{ boxShadow: "0 1px 0 #f1f5f9, 0 2px 8px rgba(0,0,0,0.04)" }}
+    >
+      {/* Left */}
+      <div className="flex items-center gap-3">
+        <div>
+          <h2 className="text-base font-bold text-gray-800 leading-tight">{title || "Dashboard"}</h2>
+          {subtitle && <p className="text-[11px] text-gray-400 leading-tight">{subtitle}</p>}
+        </div>
+      </div>
 
-          <div className="flex items-center gap-4 md:gap-8">
-            
-            {/* Search Style Button */}
-            <button
-              onClick={() => setSearchOpen(true)}
-              className="group hidden items-center gap-3 rounded-xl border border-gray-100 bg-gray-50/50 px-4 py-2 transition-all duration-300 hover:border-green-200 hover:bg-white hover:shadow-md hover:shadow-green-100/50 lg:flex lg:w-72"
-            >
-              <FaSearch className="text-xs text-gray-400 transition-colors group-hover:text-green-500" />
-              <span className="text-sm text-gray-400 group-hover:text-gray-500">Search anything...</span>
-              <div className="ml-auto flex items-center gap-1 opacity-40">
-                <kbd className="rounded border border-gray-300 bg-white px-1.5 py-0.5 text-[10px] font-sans">⌘</kbd>
-                <kbd className="rounded border border-gray-300 bg-white px-1.5 py-0.5 text-[10px] font-sans">K</kbd>
-              </div>
-            </button>
-
-            {/* Right Side Actions */}
-            <div className="flex items-center gap-3">
-              
-              {/* Notification with Indicator */}
-              <div className="relative flex items-center justify-center p-1">
-                <NotificationDropdown />
-                {/* Notification Dot */}
-                <span className="absolute right-2 top-2 flex h-2.5 w-2.5">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
-                  <span className="relative inline-flex h-2.5 w-2.5 rounded-full border-2 border-white bg-red-500"></span>
-                </span>
-              </div>
-
-              {/* Vertical Divider */}
-              <div className="h-8 w-[1px] bg-gray-100" />
-
-              {/* User Profile */}
-              <button className="group flex items-center gap-3 rounded-xl p-1.5 transition-all hover:bg-gray-50">
-                <div className="relative">
-                  <img 
-                    src="https://avatar.iran.liara.run/public/32" 
-                    alt="Admin" 
-                    className="h-9 w-9 rounded-xl border border-gray-200 object-cover shadow-sm transition-transform group-hover:scale-105"
-                  />
-                  {/* Status Online */}
-                  <div className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-white bg-green-500"></div>
-                </div>
-                
-                <div className="hidden text-left leading-tight md:block">
-                  <p className="text-sm font-bold text-gray-700 group-hover:text-green-600">SYABIL</p>
-                  <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-400">Owner</p>
-                </div>
-                
-                <FaChevronDown className="hidden text-[10px] text-gray-300 transition-transform group-hover:translate-y-0.5 group-hover:text-gray-500 md:block" />
+      {/* Right */}
+      <div className="flex items-center gap-3">
+        {/* Search */}
+        <div className="relative flex items-center">
+          <Search size={13} className="absolute left-3.5 text-gray-400" />
+          <input
+            type="text"
+            placeholder="Search anything..."
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            className="pl-9 pr-14 py-2 bg-gray-50 border border-gray-100 rounded-xl text-xs text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-200 focus:border-green-300 w-52 transition-all"
+          />
+          <div className="absolute right-3 flex items-center gap-0.5 text-gray-300">
+            {searchValue ? (
+              <button onClick={() => setSearchValue("")} className="hover:text-gray-500 transition-colors">
+                <X size={12} />
               </button>
-
-            </div>
+            ) : (
+              <span className="flex items-center gap-0.5 text-[10px] font-semibold bg-gray-100 px-1.5 py-0.5 rounded-md text-gray-400">
+                <Command size={9} />K
+              </span>
+            )}
           </div>
         </div>
-      </header>
 
-      {/* Search Modal */}
-      <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
-    </>
+        {/* Notification */}
+        <button className="relative p-2.5 rounded-xl hover:bg-gray-50 border border-gray-100 transition-colors">
+          <Bell size={16} className="text-gray-500" />
+          <span className="absolute top-1 right-1 w-3.5 h-3.5 bg-red-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center">
+            3
+          </span>
+        </button>
+
+        {/* Divider */}
+        <div className="w-px h-7 bg-gray-100" />
+
+        {/* User */}
+        <div className="flex items-center gap-2.5">
+          <div className="text-right">
+            <p className="text-xs font-bold text-gray-800 leading-tight">SYABIL</p>
+            <p className="text-[10px] text-gray-400 leading-tight">Owner</p>
+          </div>
+          <div className="relative">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-white font-bold text-sm shadow-md shadow-green-200">
+              S
+            </div>
+            <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-green-400 border-2 border-white rounded-full" />
+          </div>
+        </div>
+      </div>
+    </header>
   );
 };
 
