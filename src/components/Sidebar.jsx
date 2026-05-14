@@ -9,6 +9,7 @@ import {
   Plus,
   Zap,
   User,
+  Package,
 } from "lucide-react";
 
 const Sidebar = () => {
@@ -25,6 +26,7 @@ const Sidebar = () => {
   const managementItems = [
     { label: "Orders", icon: ShoppingCart, path: "/orders" },
     { label: "Customers", icon: Users, path: "/customers" },
+    { label: "Products", icon: Package, path: "/products" },
   ];
 
   /* Error Pages */
@@ -35,7 +37,10 @@ const Sidebar = () => {
   ];
 
   const NavItem = ({ item }) => {
-    const isActive = location.pathname === item.path;
+    // Active jika path sama, atau jika di halaman detail produk
+    const isActive =
+      location.pathname === item.path ||
+      (item.path === "/products" && location.pathname.startsWith("/products"));
     const Icon = item.icon;
 
     return (
