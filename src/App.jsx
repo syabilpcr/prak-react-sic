@@ -9,10 +9,12 @@ import NotFound from "./pages/NotFound";
 import ErrorRouter from "./pages/ErrorRouter";
 import ProfilePage from "./pages/ProfilePage";
 import Loading from "./components/Loading";
+import { Component } from "lucide-react";
 
 // Lazy load
 const Products = React.lazy(() => import("./pages/Products"));
 const ProductDetail = React.lazy(() => import("./pages/ProductDetail"));
+const Components = React.lazy(() => import("./pages/Components"));
 
 function App() {
   return (
@@ -25,6 +27,7 @@ function App() {
           <Route path="customers" element={<Customers />} />
           <Route path="products" element={<Products />} />
           <Route path="products/:id" element={<ProductDetail />} />
+          <Route path="components" element={<Components />} />
           <Route path="error/:code" element={<ErrorRouter />} />
           <Route path="*" element={<NotFound />} />
         </Route>
