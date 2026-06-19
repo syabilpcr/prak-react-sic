@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import productsData from "../data/productsData";
@@ -8,6 +9,40 @@ const Products = () => {
 
   const filtered = productsData.filter((item) =>
     item.title.toLowerCase().includes(search.toLowerCase())
+=======
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import PageHeader from "../components/PageHeader";
+
+const Products = () => {
+  const [productsData, setProductsData] = useState([]);
+  const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Ambil data dari API saat komponen pertama kali dimuat
+  useEffect(() => {
+    fetch("https://dummyjson.com/products")
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Gagal mengambil data dari server");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        // DummyJSON membungkus datanya di dalam object 'products'
+        setProductsData(data.products);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, []);
+
+  const filtered = productsData.filter((item) =>
+    item.title?.toLowerCase().includes(search.toLowerCase())
+>>>>>>> d850a834cc85faea788eb2285dada65d12ab02ed
   );
 
   return (
@@ -32,7 +67,11 @@ const Products = () => {
             <tr>
               <th className="px-6 py-3">#</th>
               <th className="px-6 py-3">Name</th>
+<<<<<<< HEAD
               <th className="px-6 py-3">Code</th>
+=======
+              <th className="px-6 py-3">SKU / Code</th>
+>>>>>>> d850a834cc85faea788eb2285dada65d12ab02ed
               <th className="px-6 py-3">Category</th>
               <th className="px-6 py-3">Brand</th>
               <th className="px-6 py-3">Price</th>
@@ -40,6 +79,7 @@ const Products = () => {
             </tr>
           </thead>
           <tbody>
+<<<<<<< HEAD
             {filtered.map((item, index) => (
               <tr
                 key={item.id}
@@ -81,6 +121,66 @@ const Products = () => {
         </table>
 
         {filtered.length === 0 && (
+=======
+            {loading ? (
+              <tr>
+                <td colSpan="7" className="text-center py-10 text-gray-500">
+                  Sedang memuat data...
+                </td>
+              </tr>
+            ) : error ? (
+              <tr>
+                <td colSpan="7" className="text-center py-10 text-red-500 font-medium">
+                  Error: {error}
+                </td>
+              </tr>
+            ) : (
+              filtered.map((item, index) => (
+                <tr
+                  key={item.id}
+                  className="border-b border-gray-50 hover:bg-gray-50 transition-colors"
+                >
+                  <td className="px-6 py-4 text-gray-400">{index + 1}</td>
+                  <td className="px-6 py-4">
+                    {/* Link ini nantinya akan mengarah ke halaman detail dengan id produk */}
+                    <Link
+                      to={`/products/${item.id}`}
+                      className="text-emerald-500 hover:text-emerald-600 font-medium hover:underline"
+                    >
+                      {item.title}
+                    </Link>
+                  </td>
+                  {/* DummyJSON menggunakan properti 'sku', bukan 'code' */}
+                  <td className="px-6 py-4 text-gray-500">{item.sku || "-"}</td>
+                  <td className="px-6 py-4">
+                    <span className="bg-green-50 text-green-600 text-xs font-semibold px-2 py-1 rounded-full capitalize">
+                      {item.category}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 text-gray-600">{item.brand || "-"}</td>
+                  <td className="px-6 py-4 text-gray-800 font-medium">
+                    {/* Mengasumsikan harga dalam USD dari API, dikonversi/ditampilkan langsung */}
+                    ${item.price.toLocaleString("en-US")}
+                  </td>
+                  <td className="px-6 py-4">
+                    <span
+                      className={`text-xs font-semibold px-2 py-1 rounded-full ${
+                        item.stock < 15
+                          ? "bg-red-50 text-red-500"
+                          : "bg-gray-100 text-gray-600"
+                      }`}
+                    >
+                      {item.stock}
+                    </span>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+
+        {!loading && !error && filtered.length === 0 && (
+>>>>>>> d850a834cc85faea788eb2285dada65d12ab02ed
           <div className="text-center py-10 text-gray-400 text-sm">
             Produk tidak ditemukan.
           </div>

@@ -27,6 +27,8 @@ const Sidebar = () => {
     { label: "Orders", icon: ShoppingCart, path: "/orders" },
     { label: "Customers", icon: Users, path: "/customers" },
     { label: "Products", icon: Package, path: "/products" },
+    { label: "Components", icon: Package, path: "/components" },
+    { label: "fiturXYZ", icon: Package, path: "/fitur-xyz" },
   ];
 
   /* Error Pages */
