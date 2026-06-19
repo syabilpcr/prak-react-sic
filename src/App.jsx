@@ -9,7 +9,6 @@ import NotFound from "./pages/NotFound";
 import ErrorRouter from "./pages/ErrorRouter";
 import ProfilePage from "./pages/ProfilePage";
 import Loading from "./components/Loading";
-import { Component } from "lucide-react";
 import FiturXYZ from "./pages/FiturXYZ";
 
 // Lazy load
